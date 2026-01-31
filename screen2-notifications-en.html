@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Premium Bank - Notifications</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --navy: #1A2E44;
+            --gold: #C9A961;
+            --light-gold: #E8D4A8;
+            --off-white: #F5F6F8;
+            --white: #FFFFFF;
+            --gray-text: #6B7280;
+            --border: #E5E7EB;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: linear-gradient(135deg, #F5F6F8 0%, #E8EBF0 100%);
+            min-height: 100vh;
+            padding-bottom: 100px;
+            color: var(--navy);
+        }
+
+        /* Header */
+        .header {
+            background: var(--white);
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 12px rgba(26, 46, 68, 0.06);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .back-btn {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: var(--off-white);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:active {
+            transform: scale(0.95);
+        }
+
+        .brand-name {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--navy);
+        }
+
+        .menu-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: var(--off-white);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        /* Stepper */
+        .stepper-container {
+            background: var(--white);
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .stepper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .step-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .step-dot.active {
+            background: var(--gold);
+            width: 28px;
+            border-radius: 5px;
+        }
+
+        .step-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--navy);
+            margin-left: 8px;
+        }
+
+        /* Branch Info */
+        .branch-info {
+            background: var(--white);
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid rgba(201, 169, 97, 0.15);
+        }
+
+        .branch-icon {
+            color: var(--gold);
+            font-size: 14px;
+        }
+
+        .branch-text {
+            font-size: 13px;
+            color: var(--gray-text);
+        }
+
+        /* Main Content */
+        .content {
+            padding: 32px 20px;
+        }
+
+        .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .title .accent {
+            color: var(--gold);
+            font-style: italic;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: var(--gray-text);
+            line-height: 1.6;
+            margin-bottom: 32px;
+        }
+
+        /* Form Section */
+        .form-section {
+            margin-bottom: 28px;
+        }
+
+        .label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--navy);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .phone-input-wrapper {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        .country-code {
+            width: 90px;
+            height: 56px;
+            background: var(--white);
+            border: 2px solid var(--border);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .country-code:active {
+            border-color: var(--gold);
+            background: rgba(201, 169, 97, 0.05);
+        }
+
+        .phone-input {
+            flex: 1;
+            height: 56px;
+            background: var(--white);
+            border: 2px solid var(--border);
+            border-radius: 14px;
+            padding: 0 18px;
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--navy);
+            transition: all 0.3s ease;
+        }
+
+        .phone-input:focus {
+            outline: none;
+            border-color: var(--gold);
+            background: rgba(201, 169, 97, 0.02);
+        }
+
+        .phone-input::placeholder {
+            color: #D1D5DB;
+        }
+
+        /* Notification Options */
+        .notification-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-card {
+            background: var(--white);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .option-card:active {
+            transform: scale(0.98);
+        }
+
+        .option-card.selected {
+            border-color: var(--gold);
+            background: linear-gradient(135deg, #FFFBF5 0%, #FFFFFF 100%);
+            box-shadow: 0 8px 24px rgba(201, 169, 97, 0.15);
+        }
+
+        .option-icon-wrapper {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .option-card.whatsapp .option-icon-wrapper {
+            background: rgba(37, 211, 102, 0.1);
+        }
+
+        .option-card.sms .option-icon-wrapper {
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .option-card.browser .option-icon-wrapper {
+            background: rgba(251, 191, 36, 0.1);
+        }
+
+        .option-content {
+            flex: 1;
+        }
+
+        .option-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 4px;
+        }
+
+        .option-badge {
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .option-badge.traditional {
+            color: var(--gray-text);
+        }
+
+        .option-badge.live {
+            color: #F59E0B;
+        }
+
+        .check-mark {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--gold);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .option-card.selected .check-mark {
+            display: flex;
+        }
+
+        /* Disclaimer */
+        .disclaimer {
+            background: rgba(251, 191, 36, 0.1);
+            border-left: 4px solid #F59E0B;
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-top: 24px;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .disclaimer-icon {
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .disclaimer-text {
+            font-size: 12px;
+            color: #92400E;
+            line-height: 1.5;
+        }
+
+        /* Sticky CTA */
+        .sticky-cta {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--white);
+            padding: 16px 20px 24px;
+            box-shadow: 0 -4px 20px rgba(26, 46, 68, 0.1);
+            z-index: 90;
+        }
+
+        .cta-button {
+            width: 100%;
+            height: 56px;
+            background: linear-gradient(135deg, var(--navy) 0%, #2A4A64 100%);
+            color: var(--white);
+            border: none;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 24px rgba(26, 46, 68, 0.3);
+        }
+
+        .cta-button:active {
+            transform: translateY(2px);
+            box-shadow: 0 4px 16px rgba(26, 46, 68, 0.2);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-section {
+            animation: fadeInUp 0.6s ease-out backwards;
+        }
+
+        .option-card {
+            animation: fadeInUp 0.6s ease-out backwards;
+        }
+
+        .option-card:nth-child(1) { animation-delay: 0.1s; }
+        .option-card:nth-child(2) { animation-delay: 0.2s; }
+        .option-card:nth-child(3) { animation-delay: 0.3s; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-left">
+            <button class="back-btn">←</button>
+            <span class="brand-name">PREMIUM BANK</span>
+        </div>
+        <button class="menu-btn">☰</button>
+    </div>
+
+    <!-- Stepper -->
+    <div class="stepper-container">
+        <div class="stepper">
+            <div class="step-dot active"></div>
+            <div class="step-dot active"></div>
+            <span class="step-label">Notifications</span>
+            <div class="step-dot"></div>
+        </div>
+    </div>
+
+    <!-- Branch Info -->
+    <div class="branch-info">
+        <span class="branch-icon">📍</span>
+        <span class="branch-text">Baghdad Main Branch - IRAQ HQ</span>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <h1 class="title">
+            How would you like to<br><span class="accent">receive</span> your ticket?
+        </h1>
+        <p class="subtitle">Experience seamless queueing. Enter your contact details to receive your instant digital priority pass.</p>
+
+        <!-- Phone Input Section -->
+        <div class="form-section">
+            <label class="label">Mobile Phone Number</label>
+            <div class="phone-input-wrapper">
+                <div class="country-code">
+                    🇮🇶 +964
+                </div>
+                <input type="tel" class="phone-input" placeholder="770 000 0000" inputmode="numeric">
+            </div>
+        </div>
+
+        <!-- Notification Options -->
+        <label class="label">Preferred Notification Method</label>
+        <div class="notification-options">
+            <!-- WhatsApp (Selected) -->
+            <div class="option-card whatsapp selected">
+                <div class="option-icon-wrapper">💬</div>
+                <div class="option-content">
+                    <div class="option-title">WhatsApp</div>
+                    <div class="option-badge">Recommended</div>
+                </div>
+                <div class="check-mark">✓</div>
+            </div>
+
+            <!-- SMS -->
+            <div class="option-card sms">
+                <div class="option-icon-wrapper">💬</div>
+                <div class="option-content">
+                    <div class="option-title">SMS</div>
+                    <div class="option-badge traditional">Traditional</div>
+                </div>
+                <div class="check-mark">✓</div>
+            </div>
+
+            <!-- In-Browser -->
+            <div class="option-card browser">
+                <div class="option-icon-wrapper">🔔</div>
+                <div class="option-content">
+                    <div class="option-title">In-Browser</div>
+                    <div class="option-badge live">Live Update</div>
+                </div>
+                <div class="check-mark">✓</div>
+            </div>
+        </div>
+
+        <!-- Disclaimer -->
+        <div class="disclaimer">
+            <div class="disclaimer-icon">⚠️</div>
+            <div class="disclaimer-text">
+                By proceeding, you consent to receive priority banking notifications. Data charges may apply for mobile messaging services. We value your privacy and security.
+            </div>
+        </div>
+    </div>
+
+    <!-- Sticky CTA -->
+    <div class="sticky-cta">
+        <button class="cta-button">
+            Confirm & Generate Ticket
+            →
+        </button>
+    </div>
+
+    <script>
+        // Add interactivity for option selection
+        document.querySelectorAll('.option-card').forEach(card => {
+            card.addEventListener('click', function() {
+                document.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+    </script>
+</body>
+</html>

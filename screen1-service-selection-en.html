@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Elite Bank - Select Service</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --navy: #1A2E44;
+            --gold: #C9A961;
+            --light-gold: #E8D4A8;
+            --off-white: #F5F6F8;
+            --white: #FFFFFF;
+            --gray-text: #6B7280;
+            --green: #10B981;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: linear-gradient(135deg, #F5F6F8 0%, #E8EBF0 100%);
+            min-height: 100vh;
+            padding-bottom: 100px;
+            color: var(--navy);
+        }
+
+        /* Header */
+        .header {
+            background: var(--white);
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 12px rgba(26, 46, 68, 0.06);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            width: 42px;
+            height: 42px;
+            background: var(--navy);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .brand-name {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-main {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--navy);
+            letter-spacing: 0.5px;
+        }
+
+        .brand-sub {
+            font-size: 9px;
+            color: var(--gray-text);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .menu-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: var(--off-white);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .menu-btn:active {
+            transform: scale(0.95);
+            background: var(--light-gold);
+        }
+
+        /* Branch Info */
+        .branch-info {
+            background: var(--white);
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid rgba(201, 169, 97, 0.15);
+        }
+
+        .branch-icon {
+            color: var(--gold);
+            font-size: 14px;
+        }
+
+        .branch-text {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--navy);
+        }
+
+        /* Badge */
+        .premier-badge {
+            background: linear-gradient(135deg, #FFF9EC 0%, #FFE8B8 100%);
+            border: 1px solid var(--gold);
+            border-radius: 20px;
+            padding: 6px 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin: 20px 20px 16px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--navy);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-icon {
+            font-size: 12px;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 0 20px 24px;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+
+        .hero-title .accent {
+            color: var(--gold);
+            font-style: italic;
+        }
+
+        .hero-subtitle {
+            font-size: 14px;
+            color: var(--gray-text);
+            line-height: 1.6;
+        }
+
+        /* Service Cards */
+        .services-container {
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .service-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(26, 46, 68, 0.08);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--gold), var(--light-gold));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .service-card:active {
+            transform: scale(0.98);
+        }
+
+        .service-card.recommended {
+            border: 2px solid var(--gold);
+            background: linear-gradient(135deg, #FFFBF5 0%, #FFFFFF 100%);
+        }
+
+        .service-card.recommended::before {
+            transform: scaleX(1);
+        }
+
+        .recommended-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: var(--gold);
+            color: var(--white);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            box-shadow: 0 4px 12px rgba(201, 169, 97, 0.4);
+        }
+
+        .service-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--off-white), #E8EBF0);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 16px;
+        }
+
+        .service-card.recommended .service-icon {
+            background: linear-gradient(135deg, var(--gold), var(--light-gold));
+            color: var(--white);
+        }
+
+        .service-title {
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--navy);
+            margin-bottom: 8px;
+        }
+
+        .service-description {
+            font-size: 13px;
+            color: var(--gray-text);
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .service-wait {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            background: var(--off-white);
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .service-card.recommended .service-wait {
+            background: rgba(201, 169, 97, 0.15);
+            color: var(--navy);
+        }
+
+        .wait-available {
+            background: rgba(16, 185, 129, 0.1) !important;
+            color: var(--green);
+        }
+
+        /* Sticky CTA */
+        .sticky-cta {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--white);
+            padding: 16px 20px 24px;
+            box-shadow: 0 -4px 20px rgba(26, 46, 68, 0.1);
+            z-index: 90;
+        }
+
+        .cta-button {
+            width: 100%;
+            height: 56px;
+            background: linear-gradient(135deg, var(--navy) 0%, #2A4A64 100%);
+            color: var(--white);
+            border: none;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 24px rgba(26, 46, 68, 0.3);
+        }
+
+        .cta-button:active {
+            transform: translateY(2px);
+            box-shadow: 0 4px 16px rgba(26, 46, 68, 0.2);
+        }
+
+        .options-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 12px;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: var(--gray-text);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .service-card {
+            animation: fadeInUp 0.6s ease-out backwards;
+        }
+
+        .service-card:nth-child(1) { animation-delay: 0.1s; }
+        .service-card:nth-child(2) { animation-delay: 0.2s; }
+        .service-card:nth-child(3) { animation-delay: 0.3s; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="logo-section">
+            <div class="logo">🏛</div>
+            <div class="brand-name">
+                <div class="brand-main">ELITE BANK</div>
+                <div class="brand-sub">Private Banking Excellence</div>
+            </div>
+        </div>
+        <button class="menu-btn">☰</button>
+    </div>
+
+    <!-- Branch Info -->
+    <div class="branch-info">
+        <span class="branch-icon">📍</span>
+        <span class="branch-text">BRANCH: DOWNTOWN MALL</span>
+    </div>
+
+    <!-- Premier Badge -->
+    <div class="premier-badge">
+        <span class="badge-icon">🏆</span>
+        PREMIER QUEUE SYSTEM
+    </div>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <h1 class="hero-title">Select Your <span class="accent">Service</span></h1>
+        <p class="hero-subtitle">Welcome to Elite Bank. Please choose the department you wish to visit today for a seamless service experience.</p>
+    </div>
+
+    <!-- Service Cards -->
+    <div class="services-container">
+        <!-- Card 1: Teller Services -->
+        <div class="service-card">
+            <div class="service-icon">💵</div>
+            <h3 class="service-title">Teller Services</h3>
+            <p class="service-description">Fast-track cash transactions, deposits, and currency exchange services.</p>
+            <div class="service-wait">
+                ⏱ APPROX WAIT: 5 MINS
+            </div>
+        </div>
+
+        <!-- Card 2: Account Services (Recommended) -->
+        <div class="service-card recommended">
+            <div class="recommended-badge">✓</div>
+            <div class="service-icon">👤</div>
+            <h3 class="service-title">Account Services</h3>
+            <p class="service-description">Open new accounts, update profiles, and comprehensive banking consultation.</p>
+            <div class="service-wait">
+                ⏱ APPROX WAIT: 12 MINS
+            </div>
+        </div>
+
+        <!-- Card 3: Loans & Finance -->
+        <div class="service-card">
+            <div class="service-icon">💼</div>
+            <h3 class="service-title">Loans & Finance</h3>
+            <p class="service-description">Personalized mortgage advice, business loans, and wealth management.</p>
+            <div class="service-wait wait-available">
+                ✅ AVAILABLE NOW
+            </div>
+        </div>
+    </div>
+
+    <!-- Sticky CTA -->
+    <div class="sticky-cta">
+        <button class="cta-button">
+            Get Your Ticket
+            🎫
+        </button>
+        <div class="options-row">
+            <div class="option-item">
+                📱 Digital Queue
+            </div>
+            <div class="option-item">
+                💬 SMS Alerts
+            </div>
+        </div>
+    </div>
+</body>
+</html>

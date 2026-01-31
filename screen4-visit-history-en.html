@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Prestige Bank - Visit History</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --navy: #1A2E44;
+            --gold: #C9A961;
+            --light-gold: #E8D4A8;
+            --off-white: #F5F6F8;
+            --white: #FFFFFF;
+            --gray-text: #6B7280;
+            --green: #10B981;
+            --red: #EF4444;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: linear-gradient(135deg, #F5F6F8 0%, #E8EBF0 100%);
+            min-height: 100vh;
+            padding-bottom: 40px;
+            color: var(--navy);
+        }
+
+        /* Header */
+        .header {
+            background: var(--white);
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 12px rgba(26, 46, 68, 0.06);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .menu-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: var(--off-white);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .brand-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            width: 42px;
+            height: 42px;
+            background: var(--gold);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--navy);
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .brand-name {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--navy);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .lang-btn {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--gray-text);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Page Header */
+        .page-header {
+            padding: 24px 20px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--navy);
+            text-decoration: none;
+            margin-bottom: 16px;
+            cursor: pointer;
+        }
+
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            font-size: 14px;
+            color: var(--gray-text);
+            line-height: 1.6;
+        }
+
+        /* Content */
+        .content {
+            padding: 0 20px;
+        }
+
+        /* Section Header */
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            padding: 0 4px;
+        }
+
+        .section-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .section-dot.active {
+            background: var(--gold);
+            box-shadow: 0 0 0 4px rgba(201, 169, 97, 0.2);
+        }
+
+        .section-dot.completed {
+            background: var(--gray-text);
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--navy);
+            flex: 1;
+        }
+
+        .section-badge {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 6px 12px;
+            border-radius: 8px;
+            background: rgba(251, 191, 36, 0.1);
+            color: #F59E0B;
+        }
+
+        /* Session Card */
+        .session-card {
+            background: var(--white);
+            border: 2px solid var(--gold);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 32px;
+            box-shadow: 0 8px 32px rgba(201, 169, 97, 0.15);
+            position: relative;
+        }
+
+        .session-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--gold), var(--light-gold));
+            border-radius: 20px 20px 0 0;
+        }
+
+        .location-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--off-white);
+        }
+
+        .location-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--gold), var(--light-gold));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            color: var(--white);
+            flex-shrink: 0;
+        }
+
+        .location-info {
+            flex: 1;
+        }
+
+        .location-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 4px;
+        }
+
+        .session-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .detail-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--gray-text);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .detail-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--navy);
+        }
+
+        .priority-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: linear-gradient(135deg, rgba(201, 169, 97, 0.1), rgba(201, 169, 97, 0.05));
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--gold);
+        }
+
+        /* History List */
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .history-item {
+            background: var(--white);
+            border: 2px solid var(--off-white);
+            border-radius: 16px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .history-item:active {
+            transform: scale(0.98);
+            border-color: var(--gold);
+        }
+
+        .history-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+
+        .history-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--off-white);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .history-title {
+            flex: 1;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        .history-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            font-size: 12px;
+        }
+
+        .history-detail {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--gray-text);
+        }
+
+        .status-badge {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 6px 10px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 12px;
+        }
+
+        .status-badge.completed {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--green);
+        }
+
+        .status-badge.cancelled {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--red);
+        }
+
+        /* Footer */
+        .footer-section {
+            margin-top: 32px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .footer-message {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: var(--gray-text);
+            background: var(--white);
+            padding: 12px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(26, 46, 68, 0.06);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .session-card,
+        .history-item {
+            animation: fadeInUp 0.6s ease-out backwards;
+        }
+
+        .history-item:nth-child(1) { animation-delay: 0.1s; }
+        .history-item:nth-child(2) { animation-delay: 0.2s; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-left">
+            <button class="menu-btn">☰</button>
+        </div>
+        <div class="brand-section">
+            <div class="logo">🏛</div>
+            <span class="brand-name">Prestige Bank</span>
+        </div>
+        <div class="header-right">
+            <button class="lang-btn">EN 🌐</button>
+        </div>
+    </div>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <a class="back-link">← Visit History</a>
+        <h1 class="page-title">Visit History</h1>
+        <p class="page-subtitle">Review your recent engagements and active sessions with our private banking centers. Your digital record of excellence.</p>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+        <!-- Active Session Section -->
+        <div class="section-header">
+            <div class="section-dot active"></div>
+            <div class="section-title">Active Session</div>
+            <div class="section-badge">🔄 PROCESSING</div>
+        </div>
+
+        <div class="session-card">
+            <div class="location-header">
+                <div class="location-icon">C</div>
+                <div class="location-info">
+                    <div class="location-name">Mayfair Private Wealth Hub</div>
+                </div>
+            </div>
+            
+            <div class="session-details">
+                <div class="detail-item">
+                    <div class="detail-label">🎫 TICKET ID</div>
+                    <div class="detail-value">PB-921</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">👤 CLIENT TYPE</div>
+                    <div class="detail-value">
+                        <span class="priority-badge">⭐ Priority Client</span>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">💼 SERVICE CATEGORY</div>
+                    <div class="detail-value">Global Portfolio Strategy</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">🕐 CHECK-IN TIME</div>
+                    <div class="detail-value">Today, 10:20 AM</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Completed Visits Section -->
+        <div class="section-header">
+            <div class="section-dot completed"></div>
+            <div class="section-title">Completed Visits</div>
+        </div>
+
+        <div class="history-list">
+            <!-- Item 1: Financial District Hub -->
+            <div class="history-item">
+                <div class="history-header">
+                    <div class="history-icon">🏛</div>
+                    <div class="history-title">Financial District Hub</div>
+                </div>
+                <div class="history-details">
+                    <div class="history-detail">💼 Wealth Advisory</div>
+                    <div class="history-detail">🎫 PR-882</div>
+                    <div class="history-detail">📅 Mar 12, 2024</div>
+                </div>
+                <div class="status-badge completed">
+                    ✅ COMPLETED
+                </div>
+            </div>
+
+            <!-- Item 2: Premium Airport Lounge -->
+            <div class="history-item">
+                <div class="history-header">
+                    <div class="history-icon">✈️</div>
+                    <div class="history-title">Premium Airport Lounge</div>
+                </div>
+                <div class="history-details">
+                    <div class="history-detail">💳 Card Issuance</div>
+                    <div class="history-detail">🎫 CR-441</div>
+                    <div class="history-detail">📅 Dec 18, 2023</div>
+                </div>
+                <div class="status-badge cancelled">
+                    ❌ CANCELLED
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer-section">
+            <div class="footer-message">
+                🔒 END OF ENCRYPTED ARCHIVE
+            </div>
+        </div>
+    </div>
+</body>
+</html>

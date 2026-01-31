@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Elite Banking - Queue Status</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --navy: #1A2E44;
+            --gold: #C9A961;
+            --light-gold: #E8D4A8;
+            --off-white: #F5F6F8;
+            --white: #FFFFFF;
+            --gray-text: #6B7280;
+            --green: #10B981;
+            --red: #EF4444;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: linear-gradient(135deg, #F5F6F8 0%, #E8EBF0 100%);
+            min-height: 100vh;
+            padding-bottom: 120px;
+            color: var(--navy);
+        }
+
+        /* Header */
+        .header {
+            background: var(--white);
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 12px rgba(26, 46, 68, 0.06);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .back-btn {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: var(--off-white);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .brand-name {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--navy);
+        }
+
+        .help-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: var(--off-white);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        /* Branch Info */
+        .branch-info {
+            background: var(--white);
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid rgba(201, 169, 97, 0.15);
+        }
+
+        .branch-icon {
+            color: var(--gold);
+            font-size: 14px;
+        }
+
+        .branch-text {
+            font-size: 13px;
+            color: var(--gray-text);
+        }
+
+        /* Status Banner */
+        .status-banner {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05));
+            border-bottom: 2px solid var(--green);
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--green);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Main Content */
+        .content {
+            padding: 32px 20px;
+        }
+
+        /* Queue Number Display */
+        .queue-display {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 40px 24px;
+            text-align: center;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 32px rgba(26, 46, 68, 0.12);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .queue-display::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--gold), var(--light-gold));
+        }
+
+        .queue-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--gray-text);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 16px;
+        }
+
+        .queue-number {
+            font-family: 'Inter', sans-serif;
+            font-size: 80px;
+            font-weight: 800;
+            color: var(--navy);
+            line-height: 1;
+            margin-bottom: 16px;
+            letter-spacing: -2px;
+        }
+
+        .progress-bar {
+            width: 120px;
+            height: 6px;
+            background: var(--off-white);
+            border-radius: 3px;
+            margin: 0 auto 28px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--gold), var(--light-gold));
+            width: 75%;
+            border-radius: 3px;
+            animation: progressPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes progressPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .service-window {
+            padding-top: 24px;
+            border-top: 1px solid var(--off-white);
+        }
+
+        .window-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--gray-text);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .window-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .action-btn {
+            flex: 1;
+            height: 52px;
+            border: 2px solid var(--navy);
+            background: var(--navy);
+            color: var(--white);
+            border-radius: 14px;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn.secondary {
+            background: var(--white);
+            color: var(--navy);
+        }
+
+        .action-btn:active {
+            transform: scale(0.97);
+        }
+
+        /* Info Cards */
+        .info-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 20px rgba(26, 46, 68, 0.08);
+        }
+
+        .info-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--gray-text);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+
+        /* Live Progress */
+        .progress-row {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .progress-item {
+            text-align: center;
+        }
+
+        .progress-number {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--navy);
+            margin-bottom: 8px;
+        }
+
+        .progress-item.now .progress-number {
+            color: var(--gold);
+        }
+
+        .progress-item.next .progress-number {
+            color: var(--gray-text);
+        }
+
+        .progress-status {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 6px 12px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        .progress-item.now .progress-status {
+            background: rgba(201, 169, 97, 0.15);
+            color: var(--gold);
+        }
+
+        .progress-item.next .progress-status {
+            background: var(--off-white);
+            color: var(--gray-text);
+        }
+
+        /* Wait Time */
+        .wait-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .wait-time {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+
+        .wait-number {
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--navy);
+            line-height: 1;
+        }
+
+        .wait-unit {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--gray-text);
+        }
+
+        .wait-circle {
+            width: 80px;
+            height: 80px;
+            position: relative;
+        }
+
+        .circle-bg {
+            fill: none;
+            stroke: var(--off-white);
+            stroke-width: 8;
+        }
+
+        .circle-progress {
+            fill: none;
+            stroke: var(--gold);
+            stroke-width: 8;
+            stroke-linecap: round;
+            transform: rotate(-90deg);
+            transform-origin: center;
+            stroke-dasharray: 188.4;
+            stroke-dashoffset: 47.1;
+        }
+
+        .circle-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--navy);
+        }
+
+        .ahead-info {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--off-white);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--gray-text);
+        }
+
+        /* Cancel Section */
+        .cancel-section {
+            text-align: center;
+            margin-top: 32px;
+        }
+
+        .cancel-btn {
+            background: transparent;
+            border: 2px solid var(--red);
+            color: var(--red);
+            padding: 14px 32px;
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cancel-btn:active {
+            background: rgba(239, 68, 68, 0.05);
+        }
+
+        .help-text {
+            font-size: 12px;
+            color: var(--gray-text);
+            margin-top: 16px;
+            line-height: 1.5;
+        }
+
+        /* Footer Info */
+        .footer-info {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 24px;
+            box-shadow: 0 4px 20px rgba(26, 46, 68, 0.08);
+        }
+
+        .footer-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--navy);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-details {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .footer-item {
+            font-size: 13px;
+            color: var(--gray-text);
+        }
+
+        .footer-item strong {
+            color: var(--navy);
+            font-weight: 600;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .queue-display,
+        .action-buttons,
+        .info-card {
+            animation: fadeInUp 0.6s ease-out backwards;
+        }
+
+        .action-buttons { animation-delay: 0.1s; }
+        .info-card:nth-of-type(1) { animation-delay: 0.2s; }
+        .info-card:nth-of-type(2) { animation-delay: 0.3s; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-left">
+            <button class="back-btn">←</button>
+            <span class="brand-name">Elite Banking</span>
+        </div>
+        <button class="help-btn">?</button>
+    </div>
+
+    <!-- Branch Info -->
+    <div class="branch-info">
+        <span class="branch-icon">📍</span>
+        <span class="branch-text">Financial District Suite</span>
+    </div>
+
+    <!-- Status Banner -->
+    <div class="status-banner">
+        <span>✅</span>
+        YOUR TICKET IS CURRENTLY ACTIVE
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <!-- Queue Number Display -->
+        <div class="queue-display">
+            <div class="queue-label">YOUR QUEUE NUMBER</div>
+            <div class="queue-number">A-15</div>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+            <div class="service-window">
+                <div class="window-label">Service Window</div>
+                <div class="window-name">Private Booth 04</div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <button class="action-btn">
+                ⏸ STATUS: ON STANDBY
+            </button>
+            <button class="action-btn secondary">
+                🔔 NOTIFY ME
+            </button>
+        </div>
+
+        <!-- Live Progress Card -->
+        <div class="info-card">
+            <div class="info-label">Live Queue Progress</div>
+            <div class="progress-row">
+                <div class="progress-item now">
+                    <div class="progress-number">A-12</div>
+                    <div class="progress-status">Now Serving</div>
+                </div>
+                <div class="progress-item next">
+                    <div class="progress-number">A-13</div>
+                    <div class="progress-status">Up Next</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Wait Time Card -->
+        <div class="info-card">
+            <div class="info-label">Estimated Wait Time</div>
+            <div class="wait-content">
+                <div class="wait-time">
+                    <div class="wait-number">12</div>
+                    <div class="wait-unit">MINS</div>
+                </div>
+                <div class="wait-circle">
+                    <svg width="80" height="80" viewBox="0 0 80 80">
+                        <circle class="circle-bg" cx="40" cy="40" r="30"></circle>
+                        <circle class="circle-progress" cx="40" cy="40" r="30"></circle>
+                    </svg>
+                    <div class="circle-text">75%</div>
+                </div>
+            </div>
+            <div class="ahead-info">
+                <span>👥</span>
+                <span>2 PERSONS AHEAD OF YOU</span>
+            </div>
+        </div>
+
+        <!-- Cancel Section -->
+        <div class="cancel-section">
+            <button class="cancel-btn">
+                ❌ Cancel My Ticket
+            </button>
+            <p class="help-text">
+                You will be notified via SMS when your turn is approaching.<br>
+                Please remain within the branch premises.
+            </p>
+        </div>
+
+        <!-- Footer Info -->
+        <div class="footer-info">
+            <div class="footer-title">
+                📞 24/7 PREMIUM SUPPORT
+            </div>
+            <div class="footer-details">
+                <div class="footer-item">
+                    <strong>Ticket Reference:</strong> #TK-882-04-P
+                </div>
+                <div class="footer-item">
+                    <strong>Branch Status:</strong> Normal Traffic
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
